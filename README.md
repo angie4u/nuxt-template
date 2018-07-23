@@ -1,10 +1,11 @@
-# nuxt1
+# nuxt-template
 
-> My ultimate Nuxt.js project
+> nuxt-template
+> to make a simple blog or something
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ npm install
 
