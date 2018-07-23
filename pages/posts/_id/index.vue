@@ -16,20 +16,20 @@
 
 <script>
 import axios from 'axios'
-     
+
 export default {
   asyncData(context) {
     //아래와 같이 firebase의 realtimedatabase 를 이용해 데이터를 이용
-   return axios.get('https://nuxt-blog-b6bb5.firebaseio.com/posts/'+context.params.id+'.json')
-   .then(res=>{
-     return {
-       loadedPost: res.data
-     }
-   })
-   .catch(e=>context.error(e))
+    return axios
+      .get(process.env.baseUrl + '/posts/' + context.params.id + '.json')
+      .then(res => {
+        return {
+          loadedPost: res.data
+        }
+      })
+      .catch(e => context.error(e))
   }
 }
-
 </script>
 
 <style scoped>

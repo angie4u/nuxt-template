@@ -21,7 +21,7 @@ const createStore = () => {
     actions: {
       nuxtServerInit(vuexContext, context) {
         //아래와 같이 firebase의 realtimedatabase 를 이용해 데이터를 이용
-        return axios.get('https://nuxt-blog-b6bb5.firebaseio.com/posts.json')
+        return axios.get(process.env.baseUrl + '/posts.json')
           .then(res => {
             const postsArray = [];
             for (const key in res.data) {
@@ -39,7 +39,7 @@ const createStore = () => {
           updatedDate: new Date()
         }
         //아래와 같이 firebase의 realtimedatabase 를 이용해 데이터를 이용
-        return axios.post('https://nuxt-blog-b6bb5.firebaseio.com/posts.json', createdPost)
+        return axios.post(process.env.baseUrl + '/posts.json', createdPost)
           .then(result => {
 
             vuexContext.commit('addPost', { ...createdPost,
@@ -50,7 +50,7 @@ const createStore = () => {
       },
       editPost(vuexContext, editedPost) {
         //아래와 같이 firebase의 realtimedatabase 를 이용해 데이터를 이용
-        return axios.put('https://nuxt-blog-b6bb5.firebaseio.com/posts/' + editedPost.id + '.json', {
+        return axios.put(process.env.baseUrl + '/posts/' + editedPost.id + '.json', {
             ...editedPost
           })
           .then(res => {

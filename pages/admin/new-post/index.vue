@@ -8,22 +8,21 @@
 
 <script>
 import axios from 'axios'
-  import AdminPostForm from '@/components/Admin/AdminPostForm'
+import AdminPostForm from '@/components/Admin/AdminPostForm'
 
-  export default {
-   
-    components: {
-        layout: 'admin',
-      AdminPostForm,
-    },methods:{
-      onSubmitted(postData){
-       this.$store.dispatch('addPost',postData).then(()=>{
-         this.$router.push("/admin");
-       })
-      }
+export default {
+  components: {
+    layout: 'admin',
+    AdminPostForm
+  },
+  methods: {
+    onSubmitted(postData) {
+      this.$store.dispatch('addPost', postData).then(() => {
+        this.$router.push('/admin')
+      })
     }
   }
-
+}
 </script>
 
 <style scoped>

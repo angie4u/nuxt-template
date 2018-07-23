@@ -23,7 +23,7 @@ export default {
     AppButton
   },
   computed: {
-    loadedPosts(){
+    loadedPosts() {
       return this.$store.getters.loadedPosts
     }
   }
