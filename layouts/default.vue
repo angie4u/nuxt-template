@@ -14,13 +14,15 @@ import TheSidenav from '@/components/Navigation/TheSidenav.vue'
 import TheSideNavToggle from '@/components/Navigation/TheSideNavToggle.vue'
 
 export default {
+  //미들웨어 추가할 수 있음
+  //middleware: 'log',
   components: {
     TheHeader,
     TheSidenav
   },
   data() {
     return {
-      displaySidenav:false
+      displaySidenav: false
     }
   }
 }

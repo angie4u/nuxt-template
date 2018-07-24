@@ -97,5 +97,9 @@ module.exports = {
   //https://ko.nuxtjs.org/api/configuration-env#env-%ED%94%84%EB%A1%9C%ED%8D%BC%ED%8B%B0
   env: {
     baseUrl: process.env.BASE_URL || 'https://nuxt-blog-b6bb5.firebaseio.com'
+  },
+
+  router: {
+    middleware: 'log'
   }
 }
