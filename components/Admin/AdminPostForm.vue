@@ -21,44 +21,35 @@
 </template>
 
 <script>
-  import AppControlInput from '@/components/UI/AppControlInput'
-  import AppButton from '@/components/UI/AppButton'
-
-  export default {
-      props: {
-          post : {
-            type : Object,
-            required: false
-          }          
-      },
-      data() {
-          return {
-        
-              editedPost: this.post 
-              ? { ...this.post}
-              : {
-                  author:'',
-                  title:'',
-                  thumbnail:'',
-                  content:'',
-                  previewText:'',
-
-              }
+export default {
+  props: {
+    post: {
+      type: Object,
+      required: false
+    }
+  },
+  data() {
+    return {
+      editedPost: this.post
+        ? { ...this.post }
+        : {
+            author: '',
+            title: '',
+            thumbnail: '',
+            content: '',
+            previewText: ''
           }
-      },
-    components: {
-      AppControlInput,
-      AppButton
-    },methods:{
-        onSave(){
-            this.$emit('submit',this.editedPost)
-        },
-        onCancel(){
-            this.$router.push('/admin')
-        }
+    }
+  },
+  methods: {
+    onSave() {
+      this.$emit('submit', this.editedPost)
+    },
+    onCancel() {
+      this.$router.push('/admin')
     }
   }
-
+}
 </script>
 
 <style scoped>
