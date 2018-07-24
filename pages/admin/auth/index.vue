@@ -1,9 +1,10 @@
 <template>
   <div class="admin-auth-page">
     <div class="auth-container">
-      <form>
-        <AppControlInput type="email">E-Mail Address</AppControlInput>
-        <AppControlInput type="password">Password</AppControlInput>
+      <!-- submit.prevent : 페이지를 다시 호출하지 않도록 함.다시 호출하면 새로고침 됨 -->
+      <form @submit.prevent="onSubmit">
+        <AppControlInput type="email" v-model="email">E-Mail Address</AppControlInput>
+        <AppControlInput type="password" v-model="password">Password</AppControlInput>
         <AppButton type="submit">{{ isLogin ? 'Login' : 'Sign Up' }}</AppButton>
         <AppButton
           type="button"
@@ -21,7 +22,29 @@ export default {
   layout: 'admin',
   data() {
     return {
-      isLogin: true
+      isLogin: true,
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    onSubmit() {
+      //url : https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
+      //api_key : firebae - authentication - web setting
+      this.$axios
+        .$post(
+          'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' +
+            process.env.fbAPIKey,
+          {
+            email: this.email,
+            password: this.password,
+            returnSecureToken: true
+          }
+        )
+        .then(result => {
+          console.log(result)
+        })
+        .catch(e => console.log(e))
     }
   }
 }

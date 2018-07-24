@@ -96,7 +96,8 @@ module.exports = {
   //클라이언트와 서버 측면에서 공유할 환경 변수들
   //https://ko.nuxtjs.org/api/configuration-env#env-%ED%94%84%EB%A1%9C%ED%8D%BC%ED%8B%B0
   env: {
-    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-b6bb5.firebaseio.com'
+    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-b6bb5.firebaseio.com',
+    fbAPIKey: 'AIzaSyBJgWepzRa5Ae1j3y2z47hb_-bt623XOgs'
   },
 
   router: {
