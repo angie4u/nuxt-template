@@ -29,18 +29,28 @@ export default {
   },
   methods: {
     onSubmit() {
-      //url : https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
+      //sign in url : https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
+      //login url : https://firebase.google.com/docs/reference/rest/auth/#section-sign-in-email-password
       //api_key : firebae - authentication - web setting
+
+      //기본적으로 이메일을 통해 가입하도록 함
+      let authUrl =
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' +
+        process.env.fbAPIKey
+
+      //로그인 된 상태라면, 로그인 하도록 함
+      if (this.isLogin) {
+        authUrl =
+          'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' +
+          process.env.fbAPIKey
+      }
+
       this.$axios
-        .$post(
-          'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' +
-            process.env.fbAPIKey,
-          {
-            email: this.email,
-            password: this.password,
-            returnSecureToken: true
-          }
-        )
+        .$post(authUrl, {
+          email: this.email,
+          password: this.password,
+          returnSecureToken: true
+        })
         .then(result => {
           console.log(result)
         })
