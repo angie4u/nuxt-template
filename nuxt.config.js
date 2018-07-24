@@ -70,7 +70,15 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: [
+    //npm install --save @nuxtjs/axios
+    //https://axios.nuxtjs.org/options.html
+    '@nuxtjs/axios'
+  ],
+  axios: {
+    baseURL: process.env.BASE_URL || 'https://nuxt-blog-b6bb5.firebaseio.com',
+    credentials: false,
+  },
 
   /*
    ** Build configuration

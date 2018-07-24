@@ -15,16 +15,14 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   asyncData(context) {
     //아래와 같이 firebase의 realtimedatabase 를 이용해 데이터를 이용
-    return axios
-      .get(process.env.baseUrl + '/posts/' + context.params.id + '.json')
-      .then(res => {
+    return context.app.$axios
+      .$get('/posts/' + context.params.id + '.json')
+      .then(data => {
         return {
-          loadedPost: res.data
+          loadedPost: data
         }
       })
       .catch(e => context.error(e))

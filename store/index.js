@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import axios from 'axios'
+
 const createStore = () => {
   return new Vuex.Store({
     state: {
@@ -21,11 +21,12 @@ const createStore = () => {
     actions: {
       nuxtServerInit(vuexContext, context) {
         //아래와 같이 firebase의 realtimedatabase 를 이용해 데이터를 이용
-        return axios.get(process.env.baseUrl + '/posts.json')
-          .then(res => {
+        return context.app.$axios
+          .$get('/posts.json')
+          .then(data => {
             const postsArray = [];
-            for (const key in res.data) {
-              postsArray.push({ ...res.data[key],
+            for (const key in data) {
+              postsArray.push({ ...data[key],
                 id: key
               })
             }
@@ -39,21 +40,21 @@ const createStore = () => {
           updatedDate: new Date()
         }
         //아래와 같이 firebase의 realtimedatabase 를 이용해 데이터를 이용
-        return axios.post(process.env.baseUrl + '/posts.json', createdPost)
-          .then(result => {
+        return this.$axios.$post('/posts.json', createdPost)
+          .then(data => {
 
             vuexContext.commit('addPost', { ...createdPost,
-              id: result.data.name
+              id: data.name
             })
           })
           .catch(e => console.log(e))
       },
       editPost(vuexContext, editedPost) {
         //아래와 같이 firebase의 realtimedatabase 를 이용해 데이터를 이용
-        return axios.put(process.env.baseUrl + '/posts/' + editedPost.id + '.json', {
+        return this.$axios.$put('/posts/' + editedPost.id + '.json', {
             ...editedPost
           })
-          .then(res => {
+          .then(data => {
             vuexContext.commit('editPost', editedPost)
           })
           .catch(error => console.log(error))
