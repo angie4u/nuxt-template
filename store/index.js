@@ -44,7 +44,7 @@ const createStore = () => {
           updatedDate: new Date()
         }
         //아래와 같이 firebase의 realtimedatabase 를 이용해 데이터를 이용
-        return this.$axios.$post('/posts.json', createdPost)
+        return this.$axios.$post('/posts.json?auth=' + vuexContext.state.token, createdPost)
           .then(data => {
 
             vuexContext.commit('addPost', { ...createdPost,
@@ -55,7 +55,10 @@ const createStore = () => {
       },
       editPost(vuexContext, editedPost) {
         //아래와 같이 firebase의 realtimedatabase 를 이용해 데이터를 이용
-        return this.$axios.$put('/posts/' + editedPost.id + '.json', {
+        //firebase .write rule 이 auth!=null 인경우
+        //https://firebase.google.com/docs/database/rest/auth 설명참고
+        //쿼리 파라미터 필요함
+        return this.$axios.$put('/posts/' + editedPost.id + '.json?auth=' + vuexContext.state.token, {
             ...editedPost
           })
           .then(data => {
