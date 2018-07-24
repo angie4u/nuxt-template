@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      loadedPosts: []
+      loadedPosts: [],
+      token: null,
     },
     mutations: {
       setPosts(state, posts) {
@@ -16,6 +17,9 @@ const createStore = () => {
         const postIndex = state.loadedPosts.findIndex(post => post.id === editPost.id);
         state.loadedPosts[postIndex] = editPost
 
+      },
+      setToken(state, token) {
+        state.token = token;
       }
     },
     actions: {
@@ -61,6 +65,34 @@ const createStore = () => {
       },
       setPosts(vuexContext, posts) {
         vuexContext.commit('setPosts', posts)
+      },
+      authenticateUser(vuexContext, authData) {
+        //sign in url : https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
+        //login url : https://firebase.google.com/docs/reference/rest/auth/#section-sign-in-email-password
+        //api_key : firebae - authentication - web setting
+
+        //기본적으로 이메일을 통해 가입하도록 함
+        let authUrl =
+          'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' +
+          process.env.fbAPIKey
+
+        //로그인 된 상태라면, 로그인 하도록 함
+        if (authData.isLogin) {
+          authUrl =
+            'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' +
+            process.env.fbAPIKey
+        }
+
+        return this.$axios
+          .$post(authUrl, {
+            email: authData.email,
+            password: authData.password,
+            returnSecureToken: true
+          })
+          .then(result => {
+            vuexContext.commit('setToken', result.idToken);
+          })
+          .catch(e => console.log(e))
       }
     },
     getters: {
