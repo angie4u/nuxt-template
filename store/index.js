@@ -100,21 +100,13 @@ const createStore = () => {
           .then(result => {
             vuexContext.commit('setToken', result.idToken);
             localStorage.setItem('token', result.idToken);
-            let expirationDate = new Date().getTime() + result.expiresIn * 1000
+            let expirationDate = new Date().getTime() + Number.parseInt(result.expiresIn) * 1000
             localStorage.setItem('tokenExpiration', expirationDate);
 
             Cookie.set('jwt', result.idToken);
             Cookie.set('expirationDate', expirationDate)
-
-            //https://firebase.google.com/docs/reference/rest/auth/?hl=ko
-            vuexContext.dispatch('setLogoutTimer', result.expiresIn * 1000)
           })
           .catch(e => console.log(e))
-      },
-      setLogoutTimer(vuexContext, duration) {
-        setTimeout(() => {
-          vuexContext.commit('clearToken')
-        }, duration);
       },
       initAuth(vuexContext, req) {
         let token, expirationDate;
@@ -133,13 +125,13 @@ const createStore = () => {
           token = localStorage.getItem('token')
           expirationDate = localStorage.getItem('tokenExpiration');
 
-          if (new Date() > +expirationDate || !token) {
-            return
-          }
         }
 
-
-        vuexContext.dispatch('setLogoutTimer', +expirationDate - new Date().getTime())
+        //initAuth 함수가 호출될때 마다, 남아있는 로그인 유효시간을 확인하여, 유효시간이 끝났을시 토큰 초기화
+        if (new Date().getTime() > +expirationDate || !token) {
+          vuexContext.commit('clearToken')
+          return
+        }
         vuexContext.commit('setToken', token);
       }
     },
