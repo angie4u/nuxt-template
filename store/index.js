@@ -129,10 +129,19 @@ const createStore = () => {
 
         //initAuth 함수가 호출될때 마다, 남아있는 로그인 유효시간을 확인하여, 유효시간이 끝났을시 토큰 초기화
         if (new Date().getTime() > +expirationDate || !token) {
-          vuexContext.commit('clearToken')
+          vuexContext.dispatch('logout')
           return
         }
         vuexContext.commit('setToken', token);
+      },
+      logout(vuexContext) {
+        vuexContext.commit('clearToken');
+        Cookie.remove('jwt')
+        Cookie.remove('expirationDate')
+        if (process.client) {
+          localStorage.removeItem('token')
+          localStorage.removeItem('tokenExpiration')
+        }
       }
     },
     getters: {
