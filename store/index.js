@@ -20,6 +20,10 @@ const createStore = () => {
       },
       setToken(state, token) {
         state.token = token;
+      },
+      //유효시간이 만료된 경우, 로그인한 유저 정보인 토큰을 제거하는 mutation
+      clearToken(state) {
+        state.token = null;
       }
     },
     actions: {
@@ -94,8 +98,15 @@ const createStore = () => {
           })
           .then(result => {
             vuexContext.commit('setToken', result.idToken);
+            //https://firebase.google.com/docs/reference/rest/auth/?hl=ko
+            vuexContext.dispatch('setLogoutTimer', result.expiresIn * 1000)
           })
           .catch(e => console.log(e))
+      },
+      setLogoutTimer(vuexContext, duration) {
+        setTimeout(() => {
+          vuexContext.commit('clearToken')
+        }, duration);
       }
     },
     getters: {
