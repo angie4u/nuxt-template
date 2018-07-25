@@ -13,6 +13,7 @@ import AdminPostForm from '@/components/Admin/AdminPostForm'
 
 export default {
   layout: 'admin',
+  middleware: ['auth'],
   components: {
     AdminPostForm
   },
@@ -38,13 +39,13 @@ export default {
 </script>
 
 <style scoped>
-.new-post-form {
+.update-form {
   width: 90%;
   margin: 20px auto;
 }
 
 @media (min-width: 768px) {
-  .new-post-form {
+  .update-form {
     width: 500px;
   }
 }
